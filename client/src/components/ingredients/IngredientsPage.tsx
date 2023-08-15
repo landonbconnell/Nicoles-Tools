@@ -12,8 +12,8 @@ const IngredientsPage = () => {
   const [addIngredientInput, setAddIngredientInput] = useState('');
 
   useEffect(() => {
-    console.log(products);
-  }, [products]);
+    console.log(selectedProducts);
+  }, [selectedProducts]);
 
   return (
     <>
@@ -21,8 +21,9 @@ const IngredientsPage = () => {
         Ingredients
       </Typography>
 
-      {products.map((product) => (
+      {products.map((product, index) => (
         <ProductView
+          key={index}
           product={product}
           setSelectedProducts={setSelectedProducts}
         />

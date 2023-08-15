@@ -8,29 +8,34 @@ import {
 } from '@mui/material';
 
 const ProductView = ({ product, setSelectedProducts }) => {
-  const { id, description, images, price, size } = product;
-
-  const image = images.find((image) => image.size === 'large');
+  const { id, description, image, price, size } = product;
+  const [selected, setSelected] = React.useState(false);
 
   const handleClick = () => {
     setSelectedProducts((previousState) => {
-      if (previousState.includes(id)) {
-        return previousState.filter((item) => item !== id);
-      } else {
-        return [...previousState, id];
-      }
+      return selected
+        ? previousState.filter((item) => item !== id)
+        : [...previousState, id];
     });
+
+    setSelected(!selected);
   };
 
   return (
-    <Card sx={{ maxWidth: 250, margin: '2rem' }}>
+    <Card
+      sx={{
+        maxWidth: 250,
+        margin: '2rem',
+        border: selected ? '1px solid blue' : '',
+      }}
+    >
       <CardActionArea onClick={handleClick}>
         <CardMedia
           component='img'
           alt={description}
           width='100%'
           height='auto'
-          image={image.url}
+          image={image}
         />
         <CardContent>
           {price.promo > 0 ? (
