@@ -1,5 +1,6 @@
 const express = require('express');
 require('dotenv').config();
+const dbConnect = require('./config/db');
 const cors = require('cors');
 const apiRoutes = require('./routes/apiRoutes');
 const {
@@ -10,6 +11,8 @@ const app = express();
 
 // Retrieves all access tokens and refreshes it before expiring
 refreshKrogerAccessToken();
+
+dbConnect().catch((err) => console.log(err));
 
 const port = 5000;
 
