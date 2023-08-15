@@ -33,7 +33,7 @@ const searchByTerm = async (req, res) => {
   }
 };
 
-const getDetailsById = async (req, res) => {
+const getProductById = async (req, res) => {
   const access_token = getAccessToken();
   try {
     const { data } = await axios.get(
@@ -75,4 +75,4 @@ const parseProductData = (currentProduct) => {
   };
 };
 
-module.exports = { searchByTerm, getDetailsById };
+module.exports = { searchByTerm, getProductById };
