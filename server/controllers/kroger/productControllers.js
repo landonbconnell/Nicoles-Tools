@@ -50,7 +50,7 @@ const getProductById = async (req, res) => {
     );
 
     const parsedData = parseProductData(data.data);
-    res.status(200).json(parsedData);
+    res.status(200).json(data);
   } catch (err) {
     res.status(500).json({ error: err.toString() });
   }
@@ -59,7 +59,9 @@ const getProductById = async (req, res) => {
 const parseProductData = (currentProduct) => {
   id = currentProduct.productId;
   description = currentProduct.description;
-  images = currentProduct.images[0].sizes;
+  images = currentProduct.images.find(
+    (image) => image.perspective === 'front'
+  ).sizes;
   inventory = currentProduct.items[0].inventory?.stockLevel;
   fulfillment = currentProduct.items[0].fulfillment;
   price = currentProduct.items[0].price;
