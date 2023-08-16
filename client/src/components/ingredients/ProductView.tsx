@@ -19,6 +19,7 @@ const ProductView = ({ selectedProducts, product }) => {
   return (
     <Card
       sx={{
+        boxShadow: 3,
         maxWidth: 250,
         margin: '2rem',
         color: 'primary.contrastText',
@@ -34,24 +35,27 @@ const ProductView = ({ selectedProducts, product }) => {
         <CardMedia
           component='img'
           alt={description}
-          width='100%'
-          height='auto'
+          sx={{
+            objectFit: 'contain',
+            width: 250,
+            height: 250,
+          }}
           image={image}
         />
         <CardContent>
           {price.promo > 0 ? (
-            <Typography gutterBottom variant='h5' component='div'>
+            <Typography gutterBottom variant='h6' component='div'>
               <mark>{price.promo}</mark> <del>{price.regular}</del>
             </Typography>
           ) : (
-            <Typography gutterBottom variant='h5' component='div'>
+            <Typography gutterBottom variant='h6' component='div'>
               {price.regular}
             </Typography>
           )}
-          <Typography gutterBottom variant='h6' component='div'>
+          <Typography gutterBottom variant='body1' component='div'>
             {description}
           </Typography>
-          <Typography gutterBottom variant='h6' component='div'>
+          <Typography gutterBottom variant='body1' component='div'>
             {size}
           </Typography>
         </CardContent>

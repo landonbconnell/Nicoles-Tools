@@ -4,13 +4,32 @@ import ProductView from './ProductView';
 import StyledButton from 'components/misc/StyledButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { newIngredientSelector } from 'redux/selectors/ingredientSelectors';
-import { resetNewIngredient } from 'redux/reducers/ingredientSlice';
+import {
+  addSavedIngredient,
+  resetNewIngredient,
+  setSavedIngredientProducts,
+} from 'redux/reducers/ingredientSlice';
 import { setPreferredProducts } from 'api/kroger/products';
 
 const NewIngredient = () => {
   const dispatch = useDispatch();
   const newIngredient = useSelector(newIngredientSelector);
   const { name, selectedProducts, products } = newIngredient;
+
+  const save = () => {
+    const selectedProductData = products.filter((product) =>
+      selectedProducts.includes(product.id)
+    );
+    setPreferredProducts(name, selectedProducts);
+    dispatch(addSavedIngredient({ name, productIds: selectedProducts }));
+    dispatch(
+      setSavedIngredientProducts({
+        name,
+        products: selectedProductData,
+      })
+    );
+    dispatch(resetNewIngredient());
+  };
 
   return (
     <>
@@ -22,12 +41,12 @@ const NewIngredient = () => {
       >
         <Box width='100%' boxShadow={3} bgcolor='primary.dark'>
           <Typography
-            gutterBottom
             variant='h5'
-            p='0.5rem 0 0.5rem 1rem'
+            p='1rem'
             color='secondary.main'
+            textAlign='center'
           >
-            Select your preferred products for '{name}'
+            Select your preferred products for '{name}':
           </Typography>
         </Box>
         <Grid
@@ -37,15 +56,17 @@ const NewIngredient = () => {
           alignItems='center'
         >
           {products.map((product, index) => (
-            <ProductView
-              key={index}
-              selectedProducts={selectedProducts}
-              product={product}
-            />
+            <Grid item key={index}>
+              <ProductView
+                selectedProducts={selectedProducts}
+                product={product}
+              />
+            </Grid>
           ))}
         </Grid>
 
         <Grid
+          mb='2rem'
           container
           direction='row'
           justifyContent='center'
@@ -59,13 +80,7 @@ const NewIngredient = () => {
             />
           </Grid>
           <Grid item>
-            <StyledButton
-              label='Save'
-              onClick={() => {
-                setPreferredProducts(name, products);
-                dispatch(resetNewIngredient());
-              }}
-            />
+            <StyledButton label='Save' onClick={save} />
           </Grid>
         </Grid>
       </Grid>

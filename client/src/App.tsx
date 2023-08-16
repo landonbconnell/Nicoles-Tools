@@ -3,6 +3,7 @@ import { createTheme, CssBaseline } from '@mui/material';
 import IngredientsPage from 'components/ingredients/IngredientsPage';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
+import './styles/App.css';
 
 const theme = createTheme({
   palette: {
@@ -20,6 +21,7 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: [
+      'Montserrat',
       'Nunito',
       'Roboto',
       '-apple-system',

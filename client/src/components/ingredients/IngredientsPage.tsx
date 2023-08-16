@@ -16,13 +16,19 @@ const IngredientsPage = () => {
         backgroundColor: 'secondary.main',
       }}
     >
-      <Typography variant='h5' sx={{ marginBottom: '1rem' }}>
-        Ingredients
-      </Typography>
+      {newIngredient.name ? (
+        <NewIngredient />
+      ) : (
+        <>
+          <Typography variant='h5' sx={{ marginBottom: '1rem' }}>
+            Ingredients
+          </Typography>
 
-      <SavedIngredients />
+          <SavedIngredients />
 
-      {newIngredient.name ? <NewIngredient /> : <AddIngredientButtons />}
+          <AddIngredientButtons />
+        </>
+      )}
     </Box>
   );
 };
