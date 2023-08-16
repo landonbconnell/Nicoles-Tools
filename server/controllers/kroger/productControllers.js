@@ -67,11 +67,6 @@ const getProductById = async (req, res) => {
 };
 
 const setPreferredProducts = async (req, res) => {
-  // req.body = { name: string, products: [string] }
-  // check if an ingredient exists with the name
-  // if it does, update the products array
-  // if it doesn't, create a new ingredient with the name and products array
-
   try {
     const { name, products } = req.body;
     const existingIngredient = await Ingredient.findOne({ name: name });
