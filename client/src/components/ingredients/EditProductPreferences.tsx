@@ -2,11 +2,13 @@ import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import ProductView from './ProductView';
 import StyledButton from 'components/misc/StyledButton';
+import axios from 'axios';
 
 const EditProductPreferences = ({
   ingredient,
   products,
   setProducts,
+  selectedProducts,
   setSelectedProducts,
   setEditingProductPreferences,
 }) => {
@@ -14,6 +16,25 @@ const EditProductPreferences = ({
     setProducts([]);
     setSelectedProducts([]);
     setEditingProductPreferences(false);
+  };
+
+  const save = () => {
+    const data = {
+      name: ingredient,
+      products: selectedProducts,
+    };
+
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/api/kroger/products/setPreferred`,
+        data
+      )
+      .then(() => {
+        reset();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -55,12 +76,7 @@ const EditProductPreferences = ({
             <StyledButton label='Cancel' onClick={reset} />
           </Grid>
           <Grid item>
-            <StyledButton
-              label='Save'
-              onClick={() => {
-                reset();
-              }}
-            />
+            <StyledButton label='Save' onClick={save} />
           </Grid>
         </Grid>
       </Grid>

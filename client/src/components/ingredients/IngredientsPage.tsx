@@ -26,6 +26,7 @@ const IngredientsPage = () => {
           setEditingProductPreferences={setEditingProductPreferences}
           products={products}
           setProducts={setProducts}
+          selectedProducts={selectedProducts}
           setSelectedProducts={setSelectedProducts}
         />
       )}

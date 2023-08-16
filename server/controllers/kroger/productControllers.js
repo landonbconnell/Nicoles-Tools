@@ -1,4 +1,5 @@
 const axios = require('axios');
+const Ingredient = require('../../models/ingredientSchema');
 const {
   getAccessToken,
 } = require('../../services/kroger/refreshKrogerAccessToken');
@@ -23,8 +24,17 @@ const searchByTerm = async (req, res) => {
 
     for (let i = 0; i < data.data.length; i++) {
       currentProduct = data.data[i];
-      let parsedData = parseProductData(currentProduct);
-      products.push(parsedData);
+      if (
+        currentProduct.productId &&
+        currentProduct.description &&
+        currentProduct.images &&
+        currentProduct.items &&
+        currentProduct.items[0].price &&
+        currentProduct.items[0].size
+      ) {
+        let parsedData = parseProductData(currentProduct);
+        products.push(parsedData);
+      }
     }
 
     res.status(200).json({ data: products });
@@ -50,18 +60,45 @@ const getProductById = async (req, res) => {
     );
 
     const parsedData = parseProductData(data.data);
-    res.status(200).json(data);
+    res.status(200).json(parsedData);
   } catch (err) {
     res.status(500).json({ error: err.toString() });
+  }
+};
+
+const setPreferredProducts = async (req, res) => {
+  // req.body = { name: string, products: [string] }
+  // check if an ingredient exists with the name
+  // if it does, update the products array
+  // if it doesn't, create a new ingredient with the name and products array
+
+  try {
+    const { name, products } = req.body;
+    const existingIngredient = await Ingredient.findOne({ name: name });
+
+    if (existingIngredient) {
+      existingIngredient.productIds = products;
+      await existingIngredient.save();
+      res.status(200).json({ message: 'Ingredient updated' });
+    } else {
+      const newIngredient = new Ingredient({
+        name: name,
+        productIds: products,
+      });
+      await newIngredient.save();
+      res.status(200).json({ message: 'Ingredient created' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.toString() });
   }
 };
 
 const parseProductData = (currentProduct) => {
   id = currentProduct.productId;
   description = currentProduct.description;
-  images = currentProduct.images.find(
-    (image) => image.perspective === 'front'
-  ).sizes;
+  image = currentProduct.images
+    .find((image) => image.perspective === 'front')
+    .sizes.find((size) => size.size === 'large').url;
   inventory = currentProduct.items[0].inventory?.stockLevel;
   fulfillment = currentProduct.items[0].fulfillment;
   price = currentProduct.items[0].price;
@@ -69,7 +106,7 @@ const parseProductData = (currentProduct) => {
   return {
     id,
     description,
-    images,
+    image,
     inventory,
     fulfillment,
     price,
@@ -77,4 +114,4 @@ const parseProductData = (currentProduct) => {
   };
 };
 
-module.exports = { searchByTerm, getProductById };
+module.exports = { searchByTerm, getProductById, setPreferredProducts };
