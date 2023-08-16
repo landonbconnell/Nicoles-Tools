@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTheme } from '@mui/material';
+import { createTheme, CssBaseline } from '@mui/material';
 import IngredientsPage from 'components/ingredients/IngredientsPage';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
@@ -7,15 +7,15 @@ import { ThemeProvider } from '@emotion/react';
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#f5f5f5',
-      main: '#bdbdbd',
-      dark: '#757575',
+      light: '#ddc9c4',
+      main: '#cbaca2',
+      dark: '#937a74',
       contrastText: '#303030',
     },
     secondary: {
-      light: '#a3b9dc',
-      main: '#607d8b',
-      dark: '#34568b',
+      light: '#ffffff',
+      main: '#f3ebe8',
+      dark: '#f5efed',
     },
   },
   typography: {
@@ -39,6 +39,7 @@ const theme = createTheme({
 const App = () => {
   return (
     <>
+      <CssBaseline />
       <ThemeProvider theme={theme}>
         <Routes>
           <Route path='/' element={<IngredientsPage />} />

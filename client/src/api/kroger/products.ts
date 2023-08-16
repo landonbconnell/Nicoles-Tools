@@ -16,3 +16,13 @@ export const getProductById = async (id: string) => {
   );
   return product.data;
 };
+
+export const setPreferredProducts = async (
+  name: string,
+  products: string[]
+) => {
+  axios.post(`${REACT_APP_API_URL}/api/kroger/products/setPreferred`, {
+    name,
+    products,
+  });
+};

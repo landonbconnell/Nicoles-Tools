@@ -1,25 +1,29 @@
 import React from 'react';
 import AddIngredientButtons from './AddIngredientButtons';
 import NewIngredient from './NewIngredient';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import {
-  newIngredientSelector,
-  savedIngredientsSelector,
-} from 'redux/selectors/ingredientSelectors';
+import { newIngredientSelector } from 'redux/selectors/ingredientSelectors';
+import SavedIngredients from './SavedIngredients';
 
 const IngredientsPage = () => {
-  const savedIngredients = useSelector(savedIngredientsSelector);
   const newIngredient = useSelector(newIngredientSelector);
 
   return (
-    <>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'secondary.main',
+      }}
+    >
       <Typography variant='h5' sx={{ marginBottom: '1rem' }}>
         Ingredients
       </Typography>
 
+      <SavedIngredients />
+
       {newIngredient.name ? <NewIngredient /> : <AddIngredientButtons />}
-    </>
+    </Box>
   );
 };
 

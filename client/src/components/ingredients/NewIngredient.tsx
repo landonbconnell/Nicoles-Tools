@@ -2,34 +2,15 @@ import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
 import ProductView from './ProductView';
 import StyledButton from 'components/misc/StyledButton';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { newIngredientSelector } from 'redux/selectors/ingredientSelectors';
 import { resetNewIngredient } from 'redux/reducers/ingredientSlice';
+import { setPreferredProducts } from 'api/kroger/products';
 
 const NewIngredient = () => {
   const dispatch = useDispatch();
   const newIngredient = useSelector(newIngredientSelector);
   const { name, selectedProducts, products } = newIngredient;
-
-  const save = () => {
-    const data = {
-      name,
-      products: selectedProducts,
-    };
-
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/api/kroger/products/setPreferred`,
-        data
-      )
-      .then(() => {
-        dispatch(resetNewIngredient);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <>
@@ -39,9 +20,14 @@ const NewIngredient = () => {
         justifyContent='center'
         alignItems='center'
       >
-        <Box width='100%' boxShadow={3} bgcolor='grey.300'>
-          <Typography variant='h5' p='0.5rem 0 0.5rem 1rem' gutterBottom>
-            {name}
+        <Box width='100%' boxShadow={3} bgcolor='primary.dark'>
+          <Typography
+            gutterBottom
+            variant='h5'
+            p='0.5rem 0 0.5rem 1rem'
+            color='secondary.main'
+          >
+            Select your preferred products for '{name}'
           </Typography>
         </Box>
         <Grid
@@ -51,7 +37,11 @@ const NewIngredient = () => {
           alignItems='center'
         >
           {products.map((product, index) => (
-            <ProductView key={index} product={product} />
+            <ProductView
+              key={index}
+              selectedProducts={selectedProducts}
+              product={product}
+            />
           ))}
         </Grid>
 
@@ -69,7 +59,13 @@ const NewIngredient = () => {
             />
           </Grid>
           <Grid item>
-            <StyledButton label='Save' onClick={save} />
+            <StyledButton
+              label='Save'
+              onClick={() => {
+                setPreferredProducts(name, products);
+                dispatch(resetNewIngredient());
+              }}
+            />
           </Grid>
         </Grid>
       </Grid>

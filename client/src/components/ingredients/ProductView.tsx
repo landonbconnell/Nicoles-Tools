@@ -5,12 +5,15 @@ import {
   CardMedia,
   Typography,
   CardActionArea,
+  useTheme,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { setSelectedProducts } from 'redux/reducers/ingredientSlice';
 
-const ProductView = ({ product }) => {
+const ProductView = ({ selectedProducts, product }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
+
   const { id, description, image, price, size } = product;
 
   return (
@@ -18,7 +21,10 @@ const ProductView = ({ product }) => {
       sx={{
         maxWidth: 250,
         margin: '2rem',
-        //border: selected ? 'solid DodgerBlue' : 'solid transparent',
+        color: 'primary.contrastText',
+        border: selectedProducts.includes(id)
+          ? `solid ${theme.palette.primary.dark}`
+          : 'solid transparent',
       }}
     >
       <CardActionArea

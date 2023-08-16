@@ -8,17 +8,23 @@ interface StyledButtonProps {
   onClick: () => void;
 }
 
-const StyledButton = ({ label, width, onClick }: StyledButtonProps) => {
+const StyledButton = ({
+  label,
+  disabled,
+  width,
+  onClick,
+}: StyledButtonProps) => {
   return (
     <Button
       variant='text'
+      disabled={disabled}
       onClick={onClick}
       sx={{
         width,
-        backgroundColor: 'secondary.dark',
-        color: 'primary.light',
+        backgroundColor: 'primary.dark',
+        color: 'secondary.light',
         '&:hover': {
-          backgroundColor: 'secondary.light',
+          backgroundColor: 'primary.light',
         },
       }}
     >
