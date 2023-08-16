@@ -28,13 +28,15 @@ export interface Product {
   size: string;
 }
 
+const newIngredientInitialState = {
+  name: '',
+  selectedProducts: [],
+  products: [],
+};
+
 const initialState: IngredientState = {
   savedIngredients: [],
-  newIngredient: {
-    name: '',
-    selectedProducts: [],
-    products: [],
-  },
+  newIngredient: newIngredientInitialState,
 };
 
 export const ingredientSlice = createSlice({
@@ -56,6 +58,9 @@ export const ingredientSlice = createSlice({
     },
     setNewIngredientProducts: (state, action: PayloadAction<Product[]>) => {
       state.newIngredient.products = action.payload;
+    },
+    resetNewIngredient: (state) => {
+      state.newIngredient = newIngredientInitialState;
     },
     addSavedIngredient: (
       state,
@@ -84,7 +89,13 @@ export const ingredientSlice = createSlice({
 
 // Action creators are generated for each case reducer function
 
-export const { setNewIngredientName, setSelectedProducts } =
-  ingredientSlice.actions;
+export const {
+  setNewIngredientName,
+  setSelectedProducts,
+  setNewIngredientProducts,
+  resetNewIngredient,
+  addSavedIngredient,
+  setSavedIngredientProducts,
+} = ingredientSlice.actions;
 
 export default ingredientSlice.reducer;

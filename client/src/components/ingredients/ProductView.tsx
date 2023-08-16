@@ -6,30 +6,25 @@ import {
   Typography,
   CardActionArea,
 } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setSelectedProducts } from 'redux/reducers/ingredientSlice';
 
-const ProductView = ({ product, setSelectedProducts }) => {
+const ProductView = ({ product }) => {
+  const dispatch = useDispatch();
   const { id, description, image, price, size } = product;
-  const [selected, setSelected] = React.useState(false);
-
-  const handleClick = () => {
-    setSelectedProducts((previousState) => {
-      return selected
-        ? previousState.filter((item) => item !== id)
-        : [...previousState, id];
-    });
-
-    setSelected(!selected);
-  };
 
   return (
     <Card
       sx={{
         maxWidth: 250,
         margin: '2rem',
-        border: selected ? 'solid DodgerBlue' : 'solid transparent',
+        //border: selected ? 'solid DodgerBlue' : 'solid transparent',
       }}
     >
-      <CardActionArea onClick={handleClick} disableRipple>
+      <CardActionArea
+        onClick={() => dispatch(setSelectedProducts(id))}
+        disableRipple
+      >
         <CardMedia
           component='img'
           alt={description}

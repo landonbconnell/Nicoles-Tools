@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import { Box, Grid, TextField } from '@mui/material';
 import StyledButton from 'components/misc/StyledButton';
 import { searchProductsByTerm } from 'api/kroger/products';
+import { useDispatch } from 'react-redux';
+import {
+  setNewIngredientName,
+  setNewIngredientProducts,
+} from 'redux/reducers/ingredientSlice';
 
-const AddIngredientButtons = ({
-  editingProductPreferences,
-  setEditingProductPreferences,
-  addIngredientInput,
-  setAddIngredientInput,
-  setProducts,
-}) => {
+const AddIngredientButtons = () => {
+  const dispatch = useDispatch();
+  const [input, setInput] = useState('');
   const [addingIngredient, setAddingIngredient] = useState(false);
 
   const handleAddButtonToggle = () => {
@@ -18,10 +19,10 @@ const AddIngredientButtons = ({
 
   const handleAddIngredient = async () => {
     handleAddButtonToggle();
-    setEditingProductPreferences(true);
-    const { data } = await searchProductsByTerm(addIngredientInput);
+    dispatch(setNewIngredientName(input));
+    const { data } = await searchProductsByTerm(input);
     console.log(data);
-    setProducts(data);
+    dispatch(setNewIngredientProducts(data));
   };
 
   return (
@@ -39,8 +40,8 @@ const AddIngredientButtons = ({
                 fullWidth
                 variant='outlined'
                 label='Ingredient Name'
-                value={addIngredientInput}
-                onChange={(e) => setAddIngredientInput(e.target.value)}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
               />
             </Grid>
             <Grid item xs={6}>

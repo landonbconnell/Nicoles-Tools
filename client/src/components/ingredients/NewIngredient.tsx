@@ -3,24 +3,18 @@ import React from 'react';
 import ProductView from './ProductView';
 import StyledButton from 'components/misc/StyledButton';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { newIngredientSelector } from 'redux/selectors/ingredientSelectors';
+import { resetNewIngredient } from 'redux/reducers/ingredientSlice';
 
-const EditProductPreferences = ({
-  ingredient,
-  products,
-  setProducts,
-  selectedProducts,
-  setSelectedProducts,
-  setEditingProductPreferences,
-}) => {
-  const reset = () => {
-    setProducts([]);
-    setSelectedProducts([]);
-    setEditingProductPreferences(false);
-  };
+const NewIngredient = () => {
+  const dispatch = useDispatch();
+  const newIngredient = useSelector(newIngredientSelector);
+  const { name, selectedProducts, products } = newIngredient;
 
   const save = () => {
     const data = {
-      name: ingredient,
+      name,
       products: selectedProducts,
     };
 
@@ -30,7 +24,7 @@ const EditProductPreferences = ({
         data
       )
       .then(() => {
-        reset();
+        dispatch(resetNewIngredient);
       })
       .catch((err) => {
         console.log(err);
@@ -47,7 +41,7 @@ const EditProductPreferences = ({
       >
         <Box width='100%' boxShadow={3} bgcolor='grey.300'>
           <Typography variant='h5' p='0.5rem 0 0.5rem 1rem' gutterBottom>
-            {ingredient}
+            {name}
           </Typography>
         </Box>
         <Grid
@@ -57,11 +51,7 @@ const EditProductPreferences = ({
           alignItems='center'
         >
           {products.map((product, index) => (
-            <ProductView
-              key={index}
-              product={product}
-              setSelectedProducts={setSelectedProducts}
-            />
+            <ProductView key={index} product={product} />
           ))}
         </Grid>
 
@@ -73,7 +63,10 @@ const EditProductPreferences = ({
           spacing={5}
         >
           <Grid item>
-            <StyledButton label='Cancel' onClick={reset} />
+            <StyledButton
+              label='Cancel'
+              onClick={() => dispatch(resetNewIngredient())}
+            />
           </Grid>
           <Grid item>
             <StyledButton label='Save' onClick={save} />
@@ -84,4 +77,4 @@ const EditProductPreferences = ({
   );
 };
 
-export default EditProductPreferences;
+export default NewIngredient;

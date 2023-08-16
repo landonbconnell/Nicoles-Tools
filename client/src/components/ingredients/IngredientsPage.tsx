@@ -1,18 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import AddIngredientButtons from './AddIngredientButtons';
-import EditProductPreferences from './EditProductPreferences';
+import NewIngredient from './NewIngredient';
 import { Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
+import {
+  newIngredientSelector,
+  savedIngredientsSelector,
+} from 'redux/selectors/ingredientSelectors';
 
 const IngredientsPage = () => {
-  const [products, setProducts] = useState([]);
-  const [selectedProducts, setSelectedProducts] = useState([]);
-  const [editingProductPreferences, setEditingProductPreferences] =
-    useState(false);
-  const [addIngredientInput, setAddIngredientInput] = useState('');
-
-  useEffect(() => {
-    console.log(selectedProducts);
-  }, [selectedProducts]);
+  const savedIngredients = useSelector(savedIngredientsSelector);
+  const newIngredient = useSelector(newIngredientSelector);
 
   return (
     <>
@@ -20,26 +18,7 @@ const IngredientsPage = () => {
         Ingredients
       </Typography>
 
-      {editingProductPreferences && (
-        <EditProductPreferences
-          ingredient={addIngredientInput}
-          setEditingProductPreferences={setEditingProductPreferences}
-          products={products}
-          setProducts={setProducts}
-          selectedProducts={selectedProducts}
-          setSelectedProducts={setSelectedProducts}
-        />
-      )}
-
-      {!editingProductPreferences && (
-        <AddIngredientButtons
-          editingProductPreferences={editingProductPreferences}
-          setEditingProductPreferences={setEditingProductPreferences}
-          addIngredientInput={addIngredientInput}
-          setAddIngredientInput={setAddIngredientInput}
-          setProducts={setProducts}
-        />
-      )}
+      {newIngredient.name ? <NewIngredient /> : <AddIngredientButtons />}
     </>
   );
 };
