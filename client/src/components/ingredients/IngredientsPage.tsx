@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import AddIngredientButtons from './AddIngredientButtons';
 import EditProductPreferences from './EditProductPreferences';
 import { Typography } from '@mui/material';
-import ProductView from './ProductView';
 
 const IngredientsPage = () => {
   const [products, setProducts] = useState([]);
@@ -21,28 +20,25 @@ const IngredientsPage = () => {
         Ingredients
       </Typography>
 
-      {products.map((product, index) => (
-        <ProductView
-          key={index}
-          product={product}
-          setSelectedProducts={setSelectedProducts}
-        />
-      ))}
-
       {editingProductPreferences && (
         <EditProductPreferences
           ingredient={addIngredientInput}
           setEditingProductPreferences={setEditingProductPreferences}
           products={products}
+          setProducts={setProducts}
+          setSelectedProducts={setSelectedProducts}
         />
       )}
-      <AddIngredientButtons
-        editingProductPreferences={editingProductPreferences}
-        setEditingProductPreferences={setEditingProductPreferences}
-        addIngredientInput={addIngredientInput}
-        setAddIngredientInput={setAddIngredientInput}
-        setProducts={setProducts}
-      />
+
+      {!editingProductPreferences && (
+        <AddIngredientButtons
+          editingProductPreferences={editingProductPreferences}
+          setEditingProductPreferences={setEditingProductPreferences}
+          addIngredientInput={addIngredientInput}
+          setAddIngredientInput={setAddIngredientInput}
+          setProducts={setProducts}
+        />
+      )}
     </>
   );
 };

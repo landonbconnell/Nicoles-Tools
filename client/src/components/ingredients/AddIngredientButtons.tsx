@@ -52,11 +52,7 @@ const AddIngredientButtons = ({
           </Grid>
         </Box>
       ) : (
-        <StyledButton
-          disabled={editingProductPreferences}
-          label='Add Ingredient'
-          onClick={handleAddButtonToggle}
-        />
+        <StyledButton label='Add Ingredient' onClick={handleAddButtonToggle} />
       )}
     </>
   );

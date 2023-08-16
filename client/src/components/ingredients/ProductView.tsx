@@ -26,10 +26,10 @@ const ProductView = ({ product, setSelectedProducts }) => {
       sx={{
         maxWidth: 250,
         margin: '2rem',
-        border: selected ? '1px solid blue' : '',
+        border: selected ? 'solid DodgerBlue' : 'solid transparent',
       }}
     >
-      <CardActionArea onClick={handleClick}>
+      <CardActionArea onClick={handleClick} disableRipple>
         <CardMedia
           component='img'
           alt={description}

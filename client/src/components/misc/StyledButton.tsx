@@ -8,15 +8,9 @@ interface StyledButtonProps {
   onClick: () => void;
 }
 
-const StyledButton = ({
-  label,
-  disabled,
-  width,
-  onClick,
-}: StyledButtonProps) => {
+const StyledButton = ({ label, width, onClick }: StyledButtonProps) => {
   return (
     <Button
-      disabled={disabled}
       variant='text'
       onClick={onClick}
       sx={{
