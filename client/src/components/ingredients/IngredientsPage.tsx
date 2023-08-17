@@ -9,13 +9,22 @@ import {
 } from 'redux/selectors/ingredientSelectors';
 import SavedIngredient from './SavedIngredient';
 import { getIngredients } from 'api/database/ingredients';
-import { addSavedIngredient } from 'redux/reducers/ingredientSlice';
+import {
+  addSavedIngredient,
+  setSavedIngredientProducts,
+} from 'redux/reducers/ingredientSlice';
 import Header from '../Header';
+import { getProductsById } from 'api/kroger/products';
 
 const IngredientsPage = () => {
   const dispatch = useDispatch();
   const savedIngredients = useSelector(savedIngredientsSelector);
   const newIngredient = useSelector(newIngredientSelector);
+
+  const fetchProductData = async (name, productIds) => {
+    const products = await getProductsById(productIds);
+    dispatch(setSavedIngredientProducts({ name, products }));
+  };
 
   // call the async function getIngredients() on mount
   useEffect(() => {
@@ -23,6 +32,9 @@ const IngredientsPage = () => {
       getIngredients().then((ingredients) => {
         ingredients.forEach((ingredient) => {
           dispatch(addSavedIngredient(ingredient));
+
+          const { name, productIds, products } = ingredient;
+          fetchProductData(name, productIds);
         });
       });
     }

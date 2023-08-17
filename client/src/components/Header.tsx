@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useTheme, Grid, Typography, useMediaQuery } from '@mui/material';
 import NavMenu from './NavMenu';
+import { useSelector } from 'react-redux';
+import { currentTabSelector } from 'redux/selectors/appSelectors';
 
 const Header = () => {
   const theme = useTheme();
@@ -8,7 +10,7 @@ const Header = () => {
     `(min-width:${theme.breakpoints.values.xs}px) and (max-width:800px)`
   );
 
-  const [currentTab, setCurrentTab] = useState('Ingredients');
+  const currentTab = useSelector(currentTabSelector);
 
   return (
     <Grid
@@ -39,7 +41,7 @@ const Header = () => {
         )}
       </Grid>
 
-      <NavMenu currentTab={currentTab} setCurrentTab={setCurrentTab} />
+      <NavMenu />
     </Grid>
   );
 };

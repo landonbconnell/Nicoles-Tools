@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useTheme,
   IconButton,
@@ -12,9 +12,13 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { currentTabSelector } from 'redux/selectors/appSelectors';
+import { Tab, setCurrentTab } from 'redux/reducers/appSlice';
 
-const NavMenu = ({ currentTab, setCurrentTab }) => {
+const NavMenu = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const isMobile = useMediaQuery(
     `(min-width:${theme.breakpoints.values.xs}px) and (max-width:800px)`
@@ -25,6 +29,11 @@ const NavMenu = ({ currentTab, setCurrentTab }) => {
   const isMedium = useMediaQuery(theme.breakpoints.between('md', 'lg'));
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const currentTab = useSelector(currentTabSelector);
+
+  useEffect(() => {
+    navigate(`/${currentTab.toLowerCase().replace(' ', '-')}`);
+  }, [currentTab]);
 
   const toggleDrawer = (open) => (event) => {
     if (
@@ -82,12 +91,11 @@ const NavMenu = ({ currentTab, setCurrentTab }) => {
       justifyContent='space-between'
       alignItems='center'
     >
-      {['Ingredients', 'Recipes', 'Cake Costs'].map((text) => (
-        <Grid item>
+      {[Tab.Ingredients, Tab.Recipes, Tab.Cake_Costs].map((text, index) => (
+        <Grid item key={index}>
           <Typography
             onClick={() => {
-              setCurrentTab(text);
-              navigate(`/${text.toLowerCase().replace(' ', '-')}`);
+              dispatch(setCurrentTab(text));
             }}
             variant='h6'
           >
