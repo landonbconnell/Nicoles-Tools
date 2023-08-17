@@ -33,7 +33,7 @@ const IngredientsPage = () => {
         ingredients.forEach((ingredient) => {
           dispatch(addSavedIngredient(ingredient));
 
-          const { name, productIds, products } = ingredient;
+          const { name, productIds } = ingredient;
           fetchProductData(name, productIds);
         });
       });
@@ -48,19 +48,13 @@ const IngredientsPage = () => {
         overflowX: 'hidden',
       }}
     >
-      {newIngredient.name ? (
-        <NewIngredient />
-      ) : (
-        <>
-          <Header />
+      <Header />
 
-          {savedIngredients.map((ingredient, index) => (
-            <SavedIngredient key={index} ingredient={ingredient} />
-          ))}
+      {savedIngredients.map((ingredient, index) => (
+        <SavedIngredient key={index} ingredient={ingredient} />
+      ))}
 
-          <AddIngredientButtons />
-        </>
-      )}
+      {newIngredient.name ? <NewIngredient /> : <AddIngredientButtons />}
     </Box>
   );
 };

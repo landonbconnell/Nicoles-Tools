@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import SavedIngredientHeader from './SavedIngredientHeader';
-import PreferredProducts from './PreferredProducts';
+import ProductsCarousel from './ProductsCarousel';
 
 const SavedIngredient = ({ ingredient }) => {
   const { name, products } = ingredient;
@@ -36,7 +36,7 @@ const SavedIngredient = ({ ingredient }) => {
         onClick={handleExpandHeader}
       />
 
-      {isExpanded && <PreferredProducts products={products} />}
+      {isExpanded && <ProductsCarousel products={products} />}
       {/* Other content that should be shown when expanded can be added here */}
     </Grid>
   );

@@ -3,15 +3,17 @@ import Button from '@mui/material/Button';
 
 interface StyledButtonProps {
   label: string;
+  upperCase?: boolean;
+  styles?: object;
   disabled?: boolean;
-  width?: string;
   onClick: () => void;
 }
 
 const StyledButton = ({
   label,
+  upperCase,
+  styles,
   disabled,
-  width,
   onClick,
 }: StyledButtonProps) => {
   return (
@@ -20,12 +22,13 @@ const StyledButton = ({
       disabled={disabled}
       onClick={onClick}
       sx={{
-        width,
+        textTransform: upperCase ? 'uppercase' : 'none',
         backgroundColor: 'primary.dark',
         color: 'secondary.light',
         '&:hover': {
           backgroundColor: 'primary.light',
         },
+        ...styles,
       }}
     >
       {label}

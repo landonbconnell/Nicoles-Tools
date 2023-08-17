@@ -1,8 +1,14 @@
 import React from 'react';
 import { Grid } from '@mui/material';
 import ProductView from './ProductView';
+import { Product } from 'redux/reducers/ingredientSlice';
 
-const PreferredProducts = ({ products }) => {
+interface ProductViewProps {
+  selectedProducts?: string[];
+  products: Product[];
+}
+
+const ProductsCarousel = ({ selectedProducts, products }: ProductViewProps) => {
   return (
     <div
       style={{
@@ -14,7 +20,10 @@ const PreferredProducts = ({ products }) => {
       <Grid container direction='row' wrap='nowrap'>
         {products.map((product, index) => (
           <Grid item key={index} style={{ display: 'inline-block' }}>
-            <ProductView product={product} />
+            <ProductView
+              selectedProducts={selectedProducts}
+              product={product}
+            />
           </Grid>
         ))}
       </Grid>
@@ -22,4 +31,4 @@ const PreferredProducts = ({ products }) => {
   );
 };
 
-export default PreferredProducts;
+export default ProductsCarousel;

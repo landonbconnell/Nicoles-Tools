@@ -1,6 +1,5 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, useTheme, useMediaQuery } from '@mui/material';
 import React from 'react';
-import ProductView from './ProductView';
 import StyledButton from 'components/misc/StyledButton';
 import { useDispatch, useSelector } from 'react-redux';
 import { newIngredientSelector } from 'redux/selectors/ingredientSelectors';
@@ -10,11 +9,14 @@ import {
   setSavedIngredientProducts,
 } from 'redux/reducers/ingredientSlice';
 import { setPreferredProducts } from 'api/kroger/products';
+import ProductsCarousel from './ProductsCarousel';
 
 const NewIngredient = () => {
   const dispatch = useDispatch();
   const newIngredient = useSelector(newIngredientSelector);
   const { name, selectedProducts, products } = newIngredient;
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.between('xs', 'sm'));
 
   const save = () => {
     const selectedProductData = products.filter((product) =>
@@ -38,31 +40,20 @@ const NewIngredient = () => {
       justifyContent='center'
       alignItems='center'
     >
-      <Box width='100%' boxShadow={3} bgcolor='primary.dark'>
+      <Box width='100%' boxShadow={3} bgcolor='primary.dark' mt='0.25rem'>
         <Typography
-          variant='h5'
-          p='1rem'
+          variant={isMobile ? 'h6' : 'h5'}
+          p='1rem 0 1rem 2rem'
           color='secondary.main'
-          textAlign='center'
         >
-          Select your preferred products for '{name}':
+          Select preferred products for "{name}" :
         </Typography>
       </Box>
-      <Grid
-        container
-        direction='row'
-        justifyContent='center'
-        alignItems='center'
-      >
-        {products.map((product, index) => (
-          <Grid item key={index}>
-            <ProductView
-              selectedProducts={selectedProducts}
-              product={product}
-            />
-          </Grid>
-        ))}
-      </Grid>
+
+      <ProductsCarousel
+        selectedProducts={selectedProducts}
+        products={products}
+      />
 
       <Grid
         mb='2rem'
