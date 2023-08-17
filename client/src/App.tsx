@@ -4,8 +4,20 @@ import IngredientsPage from 'components/ingredients/IngredientsPage';
 import { Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@emotion/react';
 import './styles/App.css';
+import RecipesPage from 'components/recipes/RecipesPage';
+import CakeCostsPage from 'components/cakeCosts/CakeCostsPage';
 
 const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      //mobile: 829,
+      sm: 650,
+      md: 960,
+      lg: 1275,
+      xl: 1600,
+    },
+  },
   palette: {
     primary: {
       light: '#ddc9c4',
@@ -44,7 +56,9 @@ const App = () => {
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <Routes>
-          <Route path='/' element={<IngredientsPage />} />
+          <Route path='/ingredients' element={<IngredientsPage />} />
+          <Route path='/recipes' element={<RecipesPage />} />
+          <Route path='/cake-costs' element={<CakeCostsPage />} />
         </Routes>
       </ThemeProvider>
     </>

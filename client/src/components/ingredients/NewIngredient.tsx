@@ -32,59 +32,57 @@ const NewIngredient = () => {
   };
 
   return (
-    <>
+    <Grid
+      container
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+    >
+      <Box width='100%' boxShadow={3} bgcolor='primary.dark'>
+        <Typography
+          variant='h5'
+          p='1rem'
+          color='secondary.main'
+          textAlign='center'
+        >
+          Select your preferred products for '{name}':
+        </Typography>
+      </Box>
       <Grid
         container
-        direction='column'
+        direction='row'
         justifyContent='center'
         alignItems='center'
       >
-        <Box width='100%' boxShadow={3} bgcolor='primary.dark'>
-          <Typography
-            variant='h5'
-            p='1rem'
-            color='secondary.main'
-            textAlign='center'
-          >
-            Select your preferred products for '{name}':
-          </Typography>
-        </Box>
-        <Grid
-          container
-          direction='row'
-          justifyContent='center'
-          alignItems='center'
-        >
-          {products.map((product, index) => (
-            <Grid item key={index}>
-              <ProductView
-                selectedProducts={selectedProducts}
-                product={product}
-              />
-            </Grid>
-          ))}
-        </Grid>
-
-        <Grid
-          mb='2rem'
-          container
-          direction='row'
-          justifyContent='center'
-          alignItems='center'
-          spacing={5}
-        >
-          <Grid item>
-            <StyledButton
-              label='Cancel'
-              onClick={() => dispatch(resetNewIngredient())}
+        {products.map((product, index) => (
+          <Grid item key={index}>
+            <ProductView
+              selectedProducts={selectedProducts}
+              product={product}
             />
           </Grid>
-          <Grid item>
-            <StyledButton label='Save' onClick={save} />
-          </Grid>
+        ))}
+      </Grid>
+
+      <Grid
+        mb='2rem'
+        container
+        direction='row'
+        justifyContent='center'
+        alignItems='center'
+        spacing={5}
+      >
+        <Grid item>
+          <StyledButton
+            label='Cancel'
+            onClick={() => dispatch(resetNewIngredient())}
+          />
+        </Grid>
+        <Grid item>
+          <StyledButton label='Save' onClick={save} />
         </Grid>
       </Grid>
-    </>
+    </Grid>
   );
 };
 

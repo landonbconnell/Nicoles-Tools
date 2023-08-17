@@ -24,17 +24,17 @@ const searchByTerm = async (req, res) => {
 
     for (let i = 0; i < data.data.length; i++) {
       currentProduct = data.data[i];
-      // if (
-      //   currentProduct.productId &&
-      //   currentProduct.description &&
-      //   currentProduct.images &&
-      //   currentProduct.items &&
-      //   currentProduct.items[0].price &&
-      //   currentProduct.items[0].size
-      // ) {
-      let parsedData = parseProductData(currentProduct);
-      products.push(parsedData);
-      // }
+      if (
+        //   currentProduct.productId &&
+        //   currentProduct.description &&
+        //   currentProduct.images &&
+        //   currentProduct.items &&
+        currentProduct.items[0].price
+        //   currentProduct.items[0].size
+      ) {
+        let parsedData = parseProductData(currentProduct);
+        products.push(parsedData);
+      }
     }
 
     res.status(200).json({ data: products });

@@ -8,12 +8,17 @@ import {
   useTheme,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setSelectedProducts } from 'redux/reducers/ingredientSlice';
+import { Product, setSelectedProducts } from 'redux/reducers/ingredientSlice';
 
-const ProductView = ({ selectedProducts, product }) => {
+interface ProductViewProps {
+  selectedProducts?: string[];
+  product: Product;
+}
+
+const ProductView = ({ selectedProducts, product }: ProductViewProps) => {
   const dispatch = useDispatch();
   const theme = useTheme();
-
+  const isSelectable = selectedProducts ? true : false;
   const { id, description, image, price, size } = product;
 
   return (
@@ -23,13 +28,14 @@ const ProductView = ({ selectedProducts, product }) => {
         maxWidth: 250,
         margin: '2rem',
         color: 'primary.contrastText',
-        border: selectedProducts.includes(id)
-          ? `solid ${theme.palette.primary.dark}`
-          : 'solid transparent',
+        border:
+          isSelectable && selectedProducts!.includes(id)
+            ? `solid ${theme.palette.primary.dark}`
+            : 'solid transparent',
       }}
     >
       <CardActionArea
-        onClick={() => dispatch(setSelectedProducts(id))}
+        onClick={() => isSelectable && dispatch(setSelectedProducts(id))}
         disableRipple
       >
         <CardMedia

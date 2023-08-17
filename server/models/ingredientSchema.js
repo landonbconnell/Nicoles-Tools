@@ -6,7 +6,7 @@ const ingredientSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  productsIds: {
+  productIds: {
     type: Array,
     required: true,
     items: {

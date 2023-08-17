@@ -17,6 +17,12 @@ export const getProductById = async (id: string) => {
   return product.data;
 };
 
+export const getProductsById = async (ids: string[]) => {
+  let productPromises = ids.map((id) => getProductById(id));
+  const products = await Promise.all(productPromises);
+  return products;
+};
+
 export const setPreferredProducts = async (
   name: string,
   products: string[]
