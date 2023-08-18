@@ -15,6 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentTabSelector } from 'redux/selectors/appSelectors';
 import { Tab, setCurrentTab } from 'redux/reducers/appSlice';
+import { current } from '@reduxjs/toolkit';
 
 const NavMenu = () => {
   const theme = useTheme();
@@ -30,6 +31,7 @@ const NavMenu = () => {
   const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const currentTab = useSelector(currentTabSelector);
+  const tabs = [Tab.Ingredients, Tab.Recipes, Tab.Cake_Costs];
 
   useEffect(() => {
     navigate(`/${currentTab.toLowerCase().replace(' ', '-')}`);
@@ -52,9 +54,20 @@ const NavMenu = () => {
       onKeyDown={toggleDrawer(false)}
     >
       <List>
-        {['Ingredients', 'Recipes', 'Cake Costs'].map((text) => (
-          <ListItem button key={text}>
-            <ListItemText primary={text} />
+        {tabs.map((text) => (
+          <ListItem
+            key={text}
+            onClick={() => {
+              dispatch(setCurrentTab(text));
+            }}
+          >
+            <ListItemText
+              primary={text}
+              sx={{
+                textDecoration: currentTab === text ? 'underline' : 'none',
+                textUnderlineOffset: '0.5rem',
+              }}
+            />
           </ListItem>
         ))}
       </List>
@@ -91,13 +104,17 @@ const NavMenu = () => {
       justifyContent='space-between'
       alignItems='center'
     >
-      {[Tab.Ingredients, Tab.Recipes, Tab.Cake_Costs].map((text, index) => (
+      {tabs.map((text, index) => (
         <Grid item key={index}>
           <Typography
+            variant='h6'
+            sx={{
+              textDecoration: currentTab === text ? 'underline' : 'none',
+              textUnderlineOffset: '0.5rem',
+            }}
             onClick={() => {
               dispatch(setCurrentTab(text));
             }}
-            variant='h6'
           >
             {text}
           </Typography>

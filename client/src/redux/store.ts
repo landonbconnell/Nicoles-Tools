@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
-import ingredientsReducer from './reducers/ingredientSlice';
 import appReducer from './reducers/appSlice';
+import ingredientsReducer from './reducers/ingredientSlice';
+import recipesReducer from './reducers/recipeSlice';
 
 export const store = configureStore({
   reducer: {
-    ingredients: ingredientsReducer,
     app: appReducer,
+    ingredients: ingredientsReducer,
+    recipes: recipesReducer,
   },
 });
 

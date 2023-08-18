@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, TextField, useTheme, useMediaQuery } from '@mui/material';
+import { Grid, TextField, useTheme, useMediaQuery } from '@mui/material';
 import StyledButton from 'components/misc/StyledButton';
 import { searchProductsByTerm } from 'api/kroger/products';
 import { useDispatch, useSelector } from 'react-redux';
@@ -47,6 +47,7 @@ const AddIngredientButtons = () => {
       justifyContent='center'
       alignItems='center'
       mt='2rem'
+      mb='2rem'
     >
       {addingIngredient ? (
         <Grid
@@ -117,7 +118,7 @@ const AddIngredientButtons = () => {
         </Grid>
       ) : (
         <StyledButton
-          label='Add Ingredient'
+          label='Add New Ingredient'
           onClick={handleAddButtonToggle}
           styles={{
             width: isMobile ? '100%' : '20rem',

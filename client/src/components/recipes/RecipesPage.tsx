@@ -1,8 +1,29 @@
+import React, { useState } from 'react';
 import Header from 'components/Header';
-import React from 'react';
+
+import { Box } from '@mui/material';
+import AddRecipeButton from './AddRecipeButton';
+import NewRecipe from './NewRecipe';
 
 const RecipesPage = () => {
-  return <Header />;
+  const [isAddingRecipe, setIsAddingRecipe] = useState(false);
+
+  return (
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'secondary.main',
+        overflowX: 'hidden',
+      }}
+    >
+      <Header />
+      {isAddingRecipe ? (
+        <NewRecipe />
+      ) : (
+        <AddRecipeButton setIsAddingRecipe={setIsAddingRecipe} />
+      )}
+    </Box>
+  );
 };
 
 export default RecipesPage;

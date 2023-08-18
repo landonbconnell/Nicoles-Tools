@@ -46,7 +46,7 @@ const NewIngredient = () => {
           p='1rem 0 1rem 2rem'
           color='secondary.main'
         >
-          Select preferred products for "{name}" :
+          Select preferred {name} :
         </Typography>
       </Box>
 

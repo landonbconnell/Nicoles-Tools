@@ -6,6 +6,7 @@ import { ThemeProvider } from '@emotion/react';
 import './styles/App.css';
 import RecipesPage from 'components/recipes/RecipesPage';
 import CakeCostsPage from 'components/cakeCosts/CakeCostsPage';
+import Helmet from 'react-helmet';
 
 const theme = createTheme({
   breakpoints: {
@@ -52,7 +53,13 @@ const theme = createTheme({
 
 const App = () => {
   return (
-    <>
+    <div className='application'>
+      <Helmet>
+        <meta charSet='utf-8' />
+        <title>Nicole's Tools</title>
+        <link rel='canonical' href={process.env.REACT_APP_CLIENT_URL} />
+      </Helmet>
+
       <CssBaseline />
       <ThemeProvider theme={theme}>
         <Routes>
@@ -61,7 +68,7 @@ const App = () => {
           <Route path='/cake-costs' element={<CakeCostsPage />} />
         </Routes>
       </ThemeProvider>
-    </>
+    </div>
   );
 };
 

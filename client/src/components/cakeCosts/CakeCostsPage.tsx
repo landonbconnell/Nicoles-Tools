@@ -1,8 +1,19 @@
-import Header from 'components/Header';
 import React from 'react';
+import Header from 'components/Header';
+import { Box } from '@mui/material';
 
 const CakeCostsPage = () => {
-  return <Header />;
+  return (
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: 'secondary.main',
+        overflowX: 'hidden',
+      }}
+    >
+      <Header />
+    </Box>
+  );
 };
 
 export default CakeCostsPage;
