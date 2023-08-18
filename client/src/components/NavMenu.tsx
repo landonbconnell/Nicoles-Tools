@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   useTheme,
   IconButton,
@@ -9,13 +9,12 @@ import {
   Grid,
   useMediaQuery,
   Typography,
-} from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { currentTabSelector } from 'redux/selectors/appSelectors';
-import { Tab, setCurrentTab } from 'redux/reducers/appSlice';
-import { current } from '@reduxjs/toolkit';
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { currentTabSelector } from "redux/selectors/appSelectors";
+import { Tab, setCurrentTab } from "redux/reducers/appSlice";
 
 const NavMenu = () => {
   const theme = useTheme();
@@ -27,20 +26,20 @@ const NavMenu = () => {
   const isSmall = useMediaQuery(
     `(min-width:801px) and (max-width:${theme.breakpoints.values.md}px)`
   );
-  const isMedium = useMediaQuery(theme.breakpoints.between('md', 'lg'));
-  const isLarge = useMediaQuery(theme.breakpoints.up('lg'));
+  const isMedium = useMediaQuery(theme.breakpoints.between("md", "lg"));
+  const isLarge = useMediaQuery(theme.breakpoints.up("lg"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const currentTab = useSelector(currentTabSelector);
   const tabs = [Tab.Ingredients, Tab.Recipes, Tab.Cake_Costs];
 
   useEffect(() => {
-    navigate(`/${currentTab.toLowerCase().replace(' ', '-')}`);
+    navigate(`/${currentTab.toLowerCase().replace(" ", "-")}`);
   }, [currentTab]);
 
   const toggleDrawer = (open) => (event) => {
     if (
-      event.type === 'keydown' &&
-      (event.key === 'Tab' || event.key === 'Shift')
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
     ) {
       return;
     }
@@ -49,7 +48,7 @@ const NavMenu = () => {
 
   const list = () => (
     <div
-      role='presentation'
+      role="presentation"
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
@@ -64,8 +63,8 @@ const NavMenu = () => {
             <ListItemText
               primary={text}
               sx={{
-                textDecoration: currentTab === text ? 'underline' : 'none',
-                textUnderlineOffset: '0.5rem',
+                textDecoration: currentTab === text ? "underline" : "none",
+                textUnderlineOffset: "0.5rem",
               }}
             />
           </ListItem>
@@ -79,18 +78,18 @@ const NavMenu = () => {
       item
       container
       xs={3}
-      direction='row'
-      justifyContent='flex-end'
-      alignItems='center'
+      direction="row"
+      justifyContent="flex-end"
+      alignItems="center"
     >
       <IconButton
         disableRipple
         onClick={toggleDrawer(true)}
-        sx={{ mr: '1.75rem' }}
+        sx={{ mr: "1.75rem" }}
       >
-        <MenuIcon fontSize='large' />
+        <MenuIcon fontSize="large" />
       </IconButton>
-      <Drawer anchor='right' open={drawerOpen} onClose={toggleDrawer(false)}>
+      <Drawer anchor="right" open={drawerOpen} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
     </Grid>
@@ -99,18 +98,18 @@ const NavMenu = () => {
       item
       container
       xs={isLarge ? 4 : isMedium ? 5 : isSmall ? 6 : 7}
-      mr='2.75rem'
-      direction='row'
-      justifyContent='space-between'
-      alignItems='center'
+      mr="2.75rem"
+      direction="row"
+      justifyContent="space-between"
+      alignItems="center"
     >
       {tabs.map((text, index) => (
         <Grid item key={index}>
           <Typography
-            variant='h6'
+            variant="h6"
             sx={{
-              textDecoration: currentTab === text ? 'underline' : 'none',
-              textUnderlineOffset: '0.5rem',
+              textDecoration: currentTab === text ? "underline" : "none",
+              textUnderlineOffset: "0.5rem",
             }}
             onClick={() => {
               dispatch(setCurrentTab(text));

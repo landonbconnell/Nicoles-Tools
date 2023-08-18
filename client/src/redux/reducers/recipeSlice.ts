@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 
 export interface RecipeState {
   items: Recipe[];
@@ -23,44 +23,44 @@ export interface Cupcake {
 }
 
 export interface Cake {
-  shape: 'round' | 'square';
+  shape: "round" | "square";
   size: Diameter | Dimensions;
 }
 
 export interface Diameter {
   diameter: number;
-  unit: 'in' | 'cm';
+  unit: "in" | "cm";
 }
 
 export interface Dimensions {
   width: number;
   height: number;
-  unit: 'in' | 'cm';
+  unit: "in" | "cm";
 }
 
 const initialState: RecipeState = {
   items: [],
   newRecipe: {
-    name: '',
+    name: "",
     ingredients: [
       {
-        name: '',
-        quantity: '',
-        unit: '',
+        name: "",
+        quantity: "",
+        unit: "",
       },
     ],
     makes: {
-      shape: 'round',
+      shape: "round",
       size: {
         diameter: 8,
-        unit: 'in',
+        unit: "in",
       },
     },
   },
 };
 
 export const recipeSlice = createSlice({
-  name: 'recipes',
+  name: "recipes",
   initialState,
   reducers: {
     addRecipe: (state, action: PayloadAction<Recipe>) => {
@@ -68,6 +68,16 @@ export const recipeSlice = createSlice({
     },
     setNewRecipeName: (state, action: PayloadAction<string>) => {
       state.newRecipe.name = action.payload;
+    },
+    addNewRecipeIngredient: (state) => {
+      state.newRecipe.ingredients.push({
+        name: "",
+        quantity: "",
+        unit: "",
+      });
+    },
+    removeNewRecipeIngredient: (state, action: PayloadAction<number>) => {
+      state.newRecipe.ingredients.splice(action.payload, 1);
     },
     setNewRecipeIngredientName: (
       state,
@@ -98,6 +108,8 @@ export const recipeSlice = createSlice({
 export const {
   addRecipe,
   setNewRecipeName,
+  addNewRecipeIngredient,
+  removeNewRecipeIngredient,
   setNewRecipeIngredientName,
   setNewRecipeIngredientQuantity,
   setNewRecipeIngredientUnit,

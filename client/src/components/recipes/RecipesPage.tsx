@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Header from 'components/Header';
+import React, { useState } from "react";
+import Header from "components/Header";
 
-import { Box } from '@mui/material';
-import AddRecipeButton from './AddRecipeButton';
-import NewRecipe from './NewRecipe';
+import { Box } from "@mui/material";
+import AddRecipeButton from "./AddRecipeButton";
+import NewRecipe from "./NewRecipe";
 
 const RecipesPage = () => {
   const [isAddingRecipe, setIsAddingRecipe] = useState(false);
@@ -11,9 +11,9 @@ const RecipesPage = () => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        backgroundColor: 'secondary.main',
-        overflowX: 'hidden',
+        minHeight: "100vh",
+        backgroundColor: "secondary.main",
+        overflowX: "hidden",
       }}
     >
       <Header />
