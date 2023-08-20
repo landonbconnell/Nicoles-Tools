@@ -25,23 +25,21 @@ jobs:
       - name: Deploy Client to Server via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          username: ${{ secrets.SFTP_USERNAME }}
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
+          username: "${{ secrets.SFTP_USERNAME }}"
+          server: "${{ secrets.SFTP_HOST }}"
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local_path: 'client/build/*'
-          remote_path: '/nicoles.tools'
+          local_path: "client/build/*"
+          remote_path: "/nicoles.tools"
           delete_remote_files: true
 
       - name: Deploy Server to Server via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          username: ${{ secrets.SFTP_USERNAME }}
-          server: ${{ secrets.SFTP_HOST }}
-          port: ${{ secrets.SFTP_PORT }}
+          username: "${{ secrets.SFTP_USERNAME }}"
+          server: "${{ secrets.SFTP_HOST }}"
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          local_path: 'server/*'
-          remote_path: '/nicoles.tools'
+          local_path: "server/*"
+          remote_path: "/nicoles.tools"
           delete_remote_files: true
 
           # praying to tha lord that this works
