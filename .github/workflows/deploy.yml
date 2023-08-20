@@ -23,26 +23,23 @@ jobs:
           npm run build
 
       - name: Deploy Client to Server via SFTP
-        uses: appleboy/scp-action@master
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
+          server: ${{ secrets.SFTP_HOST }}
           port: ${{ secrets.SFTP_PORT }}
-          source: 'client/build/*'
-          target: '/nicoles.tools'
-          key: ${{ secrets.SHH_PRIVATE_KEY }}
-          rm: true
-          debug: true
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: 'client/build/*'
+          remote_path: '/nicoles.tools'
+          delete_remote_files: true
 
       - name: Deploy Server to Server via SFTP
-        uses: appleboy/scp-action@master
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
-          host: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USERNAME }}
-          password: ${{ secrets.SFTP_PASSWORD }}
+          server: ${{ secrets.SFTP_HOST }}
           port: ${{ secrets.SFTP_PORT }}
-          source: 'server/*'
-          target: '/nicoles.tools/api'
-          key: ${{ secrets.SHH_PRIVATE_KEY }}
-          rm: true
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          local_path: 'server/*'
+          remote_path: '/nicoles.tools'
+          delete_remote_files: true
