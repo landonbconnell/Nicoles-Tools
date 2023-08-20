@@ -43,3 +43,5 @@ jobs:
           local_path: 'server/*'
           remote_path: '/nicoles.tools'
           delete_remote_files: true
+
+          # praying to tha lord that this works
