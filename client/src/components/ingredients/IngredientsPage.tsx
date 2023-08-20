@@ -21,13 +21,13 @@ const IngredientsPage = () => {
   const savedIngredients = useSelector(savedIngredientsSelector);
   const newIngredient = useSelector(newIngredientSelector);
 
-  const fetchProductData = async (name, productIds) => {
-    const products = await getProductsById(productIds);
-    dispatch(setSavedIngredientProducts({ name, products }));
-  };
-
   // call the async function getIngredients() on mount
   useEffect(() => {
+    const fetchProductData = async (name, productIds) => {
+      const products = await getProductsById(productIds);
+      dispatch(setSavedIngredientProducts({ name, products }));
+    };
+
     if (savedIngredients.length === 0) {
       getIngredients().then((ingredients) => {
         ingredients.forEach((ingredient) => {
@@ -38,7 +38,7 @@ const IngredientsPage = () => {
         });
       });
     }
-  }, []);
+  }, [dispatch, savedIngredients.length]);
 
   return (
     <Box
