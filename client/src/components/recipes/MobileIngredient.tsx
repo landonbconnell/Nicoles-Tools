@@ -35,13 +35,13 @@ const MobileIngredient = ({ index }) => {
         justifyContent="center"
         alignItems="center"
         spacing={1}
-        xs={showDelete ? 9 : 11}
+        xs={showDelete ? 9 : 12}
         sx={{
           // Reducing the translateX value to make it move less to the left
-          transform: showDelete ? "translateX(-0.95rem)" : "translateX(0)",
+          transform: showDelete ? "translateX(-1rem)" : "translateX(0)",
         }}
       >
-        <Grid item width={"calc(100% - 2rem)"}>
+        <Grid item width={showDelete ? "100%" : "calc(100% - 4rem)"}>
           <SelectIngredient index={index} />
         </Grid>
 
@@ -52,7 +52,7 @@ const MobileIngredient = ({ index }) => {
           justifyContent="space-between"
           alignItems="center"
           spacing={1}
-          width={"calc(100% - 1.5rem)"}
+          width={showDelete ? "100%" : "calc(100% - 3.5rem)"}
         >
           <Grid item xs={6}>
             <SetQuantity index={index} />
