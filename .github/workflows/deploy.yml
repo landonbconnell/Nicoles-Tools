@@ -31,6 +31,8 @@ jobs:
           port: ${{ secrets.SFTP_PORT }}
           source: 'client/build/*'
           target: '/nicoles.tools'
+          key: ${{ secrets.SHH_PRIVATE_KEY }}
+          rm: true
 
       - name: Deploy Server to Server via SFTP
         uses: appleboy/scp-action@master
