@@ -1,0 +1,43 @@
+name: Build and Deploy to Server
+
+on:
+  push:
+    branches:
+      - main # or your default branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies and build the React app
+        run: |
+          cd client
+          npm install
+          npm run build
+
+      - name: Deploy Client to Server via SFTP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }} # Optional, only include if needed
+          source: 'client/build/*'
+          target: '/nicoles.tools' # Target directory on the server
+
+      - name: Deploy Server to Server via SFTP
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USERNAME }}
+          password: ${{ secrets.SFTP_PASSWORD }}
+          port: ${{ secrets.SFTP_PORT }} # Optional, only include if needed
+          source: 'server/*'
+          target: '/nicoles.tools/api' # Target directory on the server
