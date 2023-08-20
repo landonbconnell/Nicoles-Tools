@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 export interface RecipeState {
   items: Recipe[];
@@ -9,7 +9,7 @@ export interface RecipeState {
 export interface Recipe {
   name: string;
   ingredients: Ingredient[];
-  makes: Cupcake | Cake;
+  makes: Round_Cake | Rectangular_Cake | Cupcake | null;
 }
 
 export interface Ingredient {
@@ -18,49 +18,56 @@ export interface Ingredient {
   unit: string;
 }
 
+export interface Round_Cake {
+  shape: Shape.Round;
+  size: {
+    diameter: string;
+    unit: Unit | null;
+  };
+}
+
+export interface Rectangular_Cake {
+  shape: Shape.Rectangular;
+  size: {
+    length: string;
+    width: string;
+    unit: Unit | null;
+  };
+}
+
 export interface Cupcake {
-  quantity: number;
+  shape: Shape.Cupcake;
+  quantity: string;
 }
 
-export interface Cake {
-  shape: "round" | "square";
-  size: Diameter | Dimensions;
+export enum Shape {
+  Round = 'round',
+  Rectangular = 'rectangular',
+  Cupcake = 'cupcake',
 }
 
-export interface Diameter {
-  diameter: number;
-  unit: "in" | "cm";
-}
-
-export interface Dimensions {
-  width: number;
-  height: number;
-  unit: "in" | "cm";
+export enum Unit {
+  Inch = 'in',
+  Centimeter = 'cm',
 }
 
 const initialState: RecipeState = {
   items: [],
   newRecipe: {
-    name: "",
+    name: '',
     ingredients: [
       {
-        name: "",
-        quantity: "",
-        unit: "",
+        name: '',
+        quantity: '',
+        unit: '',
       },
     ],
-    makes: {
-      shape: "round",
-      size: {
-        diameter: 8,
-        unit: "in",
-      },
-    },
+    makes: null,
   },
 };
 
 export const recipeSlice = createSlice({
-  name: "recipes",
+  name: 'recipes',
   initialState,
   reducers: {
     addRecipe: (state, action: PayloadAction<Recipe>) => {
@@ -71,9 +78,9 @@ export const recipeSlice = createSlice({
     },
     addNewRecipeIngredient: (state) => {
       state.newRecipe.ingredients.push({
-        name: "",
-        quantity: "",
-        unit: "",
+        name: '',
+        quantity: '',
+        unit: '',
       });
     },
     removeNewRecipeIngredient: (state, action: PayloadAction<number>) => {
@@ -100,6 +107,68 @@ export const recipeSlice = createSlice({
       const { index, unit } = action.payload;
       state.newRecipe.ingredients[index].unit = unit;
     },
+    setShape: (state, action: PayloadAction<{ shape: Shape }>) => {
+      const { shape } = action.payload;
+      switch (shape) {
+        case Shape.Round:
+          state.newRecipe.makes = {
+            shape: Shape.Round,
+            size: {
+              diameter: '',
+              unit: null,
+            },
+          };
+          break;
+        case Shape.Rectangular:
+          state.newRecipe.makes = {
+            shape: Shape.Rectangular,
+            size: {
+              length: '',
+              width: '',
+              unit: null,
+            },
+          };
+          break;
+        case Shape.Cupcake:
+          state.newRecipe.makes = {
+            shape: Shape.Cupcake,
+            quantity: '',
+          };
+          break;
+      }
+    },
+    setDiameter: (state, action: PayloadAction<{ diameter: string }>) => {
+      const { diameter } = action.payload;
+      if (state.newRecipe.makes?.shape === Shape.Round) {
+        state.newRecipe.makes.size.diameter = diameter;
+      }
+    },
+    setLength: (state, action: PayloadAction<{ length: string }>) => {
+      const { length } = action.payload;
+      if (state.newRecipe.makes?.shape === Shape.Rectangular) {
+        state.newRecipe.makes.size.length = length;
+      }
+    },
+    setWidth: (state, action: PayloadAction<{ width: string }>) => {
+      const { width } = action.payload;
+      if (state.newRecipe.makes?.shape === Shape.Rectangular) {
+        state.newRecipe.makes.size.width = width;
+      }
+    },
+    setQuantity: (state, action: PayloadAction<{ quantity: string }>) => {
+      const { quantity } = action.payload;
+      if (state.newRecipe.makes?.shape === Shape.Cupcake) {
+        state.newRecipe.makes.quantity = quantity;
+      }
+    },
+    setUnit: (state, action: PayloadAction<{ unit: Unit }>) => {
+      const { unit } = action.payload;
+      if (state.newRecipe.makes?.shape === Shape.Round) {
+        state.newRecipe.makes.size.unit = unit;
+      } else if (state.newRecipe.makes?.shape === Shape.Rectangular) {
+        state.newRecipe.makes.size.unit = unit;
+      }
+    },
   },
 });
 
@@ -113,6 +182,12 @@ export const {
   setNewRecipeIngredientName,
   setNewRecipeIngredientQuantity,
   setNewRecipeIngredientUnit,
+  setShape,
+  setDiameter,
+  setLength,
+  setWidth,
+  setQuantity,
+  setUnit,
 } = recipeSlice.actions;
 
 export default recipeSlice.reducer;
